@@ -7,6 +7,36 @@ public class HDFSObject {
     private boolean directory;
     private String username;
 
+    private  Long capacity;
+
+    private Long remaining;
+
+    private Long used;
+
+    public Long getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(Long capacity) {
+        this.capacity = capacity;
+    }
+
+    public Long getRemaining() {
+        return remaining;
+    }
+
+    public void setRemaining(Long remaining) {
+        this.remaining = remaining;
+    }
+
+    public Long getUsed() {
+        return used;
+    }
+
+    public void setUsed(Long used) {
+        this.used = used;
+    }
+
     public String getUsername() {
         return username;
     }
@@ -17,6 +47,10 @@ public class HDFSObject {
 
     public String getPath() {
         return path;
+    }
+
+    public void setDirectory(boolean directory) {
+        this.directory = directory;
     }
 
     public void setPath(String path) {

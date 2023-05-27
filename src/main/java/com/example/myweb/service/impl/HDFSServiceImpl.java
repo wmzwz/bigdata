@@ -1,6 +1,6 @@
 package com.example.myweb.service.impl;
 
-import com.example.myweb.dao.HdfsDao;
+import com.example.myweb.entity.dao.HdfsDao;
 import com.example.myweb.entity.HDFSObject;
 import com.example.myweb.service.IHDFSService;
 import com.example.myweb.util.DTOTools;
@@ -11,6 +11,7 @@ import javax.annotation.Resource;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class HDFSServiceImpl implements IHDFSService {
@@ -43,6 +44,17 @@ public class HDFSServiceImpl implements IHDFSService {
         FileStatus[] filelist = hdfsDao.getDirectoryFromHdfs(path);
         List<HDFSObject> hdfsobjects = DTOTools.FileStatusConvertHDFSObjectList(filelist);
         return hdfsobjects;
+    }
+
+    @Override
+    public boolean CreateDir(String dirname) {
+        boolean res = hdfsDao.createdir(dirname);
+        return res;
+    }
+
+    @Override
+    public Map<String,Long> GetStatus() {
+        return hdfsDao.getStatus();
     }
 
     @Override

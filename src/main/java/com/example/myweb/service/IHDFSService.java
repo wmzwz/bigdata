@@ -8,6 +8,7 @@ import org.apache.hadoop.fs.FileStatus;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 
 public interface IHDFSService {
     public FileStatus[] ReadHDFS();
@@ -18,7 +19,11 @@ public interface IHDFSService {
 
     public List<HDFSObject> ReadHDFSObject(String path);
 
-    public boolean CreateDir();
+    public boolean CreateDir(String dirname);
+
+    public Map<String,Long> GetStatus();
+
+    boolean CreateDir();
 
     public boolean DeleteFile(String path);
 

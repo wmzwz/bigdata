@@ -1,4 +1,4 @@
-package com.example.myweb.dao;
+package com.example.myweb.entity.dao;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -131,7 +131,7 @@ public class ESDao {
             String responseBody = EntityUtils.toString(response.getEntity());
             System.out.println(requestLine.toString() + "," + host.getHostName() + "," + statusCode + "," + headers.toString());
             System.out.println(responseBody);
-            //restClient.close();
+
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -1,4 +1,4 @@
-package com.example.myweb.dao;
+package com.example.myweb.entity.dao;
 
 import java.util.List;
 

@@ -14,6 +14,8 @@
         UserInfo u = (UserInfo) request.getAttribute("user");
         if (u != null) username = u.getUsername();
     }
+
+
 %>
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">

@@ -1,6 +1,6 @@
 package com.example.myweb.service.impl;
 
-import com.example.myweb.dao.ESDao;
+import com.example.myweb.entity.dao.ESDao;
 import com.example.myweb.entity.HDFSObject;
 import com.example.myweb.service.IELKService;
 import com.example.myweb.util.WordUtil;

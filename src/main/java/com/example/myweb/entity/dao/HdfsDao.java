@@ -1,15 +1,16 @@
-package com.example.myweb.dao;
+package com.example.myweb.entity.dao;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
 import java.io.InputStream;
-
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.fs.FSDataOutputStream;
-import org.apache.hadoop.fs.FileStatus;
-import org.apache.hadoop.fs.FileSystem;
-import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.fs.*;
+import org.apache.hadoop.hdfs.DistributedFileSystem;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -29,6 +30,27 @@ public class HdfsDao {
         return "hdfs://" + hdfsHost + ":" + hdfsPort + "/" + hdfsDir + "/";
     }
 
+
+    public Map<String,Long> getStatus(){
+        Configuration conf = new Configuration();
+        FileSystem fs = null;
+        Map<String,Long> map = new HashMap<>();
+        try{
+            fs = FileSystem.get(new URI(hdfsHost),conf);
+            FsStatus fsStatus = fs.getStatus();
+            long capacity = fsStatus.getCapacity();
+            long remaining = fsStatus.getRemaining();
+            long used = fsStatus.getUsed();
+
+            map.put("capacity",capacity);
+            map.put("remaining",remaining);
+            map.put("used",used);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        return map;
+    }
 
     public void copyFile(String local, String desturl) throws IOException {
         Configuration conf = new Configuration();
@@ -65,22 +87,6 @@ public class HdfsDao {
     }
 
     //创建新目录
-    public void createdir(String dirpath) {
-        try {
-            String dirname = gethdfsinfo() + dirpath;
-            Configuration conf = new Configuration();
-            FileSystem fs = FileSystem.get(URI.create(dirname), conf, "root");
-            Path f = new Path(dirname);
-            if (!fs.exists(new Path(dirname))) {
-                fs.mkdirs(f);
-            }
-
-            System.out.println("ok");
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
 
 
     /**
@@ -176,6 +182,26 @@ public class HdfsDao {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean createdir(String dirpath){
+        boolean res = false;
+        try {
+            String dirname = gethdfsinfo() + dirpath;
+            Configuration conf = new Configuration();
+            FileSystem fs = FileSystem.get(URI.create(dirname), conf, "root");
+            Path f = new Path(dirname);
+            if (!fs.exists(new Path(dirname))) {
+                if(fs.mkdirs(f)){
+                    res = true;
+                }
+            }
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        return res;
     }
 
     public boolean delete(String filePath){
